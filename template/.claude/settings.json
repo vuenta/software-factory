@@ -1,0 +1,35 @@
+{
+  "extraKnownMarketplaces": {
+    "vuenta-factory": {
+      "source": {
+        "source": "github",
+        "repo": "vuenta/software-factory"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "factory@vuenta-factory": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash(pnpm install)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm test)",
+      "Bash(pnpm test *)",
+      "Bash(pnpm build)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(gh issue view *)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr diff *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/.env)",
+      "Read(./**/.env.*)"
+    ]
+  }
+}

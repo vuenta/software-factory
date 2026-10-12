@@ -1,0 +1,38 @@
+name: Bug
+description: Iets werkt niet zoals bedoeld
+title: "fix: "
+labels: ["type:bug"]
+body:
+  - type: textarea
+    id: wat
+    attributes:
+      label: Wat gebeurt er?
+    validations:
+      required: true
+  - type: textarea
+    id: verwacht
+    attributes:
+      label: Wat had er moeten gebeuren?
+    validations:
+      required: true
+  - type: textarea
+    id: stappen
+    attributes:
+      label: Stappen om te reproduceren
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptatiecriteria
+    attributes:
+      label: Acceptatiecriteria voor de oplossing
+      value: |
+        - [ ] Een test reproduceert de fout en slaagt na de oplossing
+  - type: input
+    id: omgeving
+    attributes:
+      label: Omgeving
+      placeholder: "lokaal / productie, browser, versie"

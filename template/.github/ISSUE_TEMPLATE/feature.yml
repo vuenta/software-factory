@@ -1,0 +1,35 @@
+name: Feature
+description: Nieuwe functionaliteit (user story)
+title: "feat: "
+labels: ["type:feature"]
+body:
+  - type: textarea
+    id: doel
+    attributes:
+      label: Doel
+      description: Als <rol> wil ik <functie>, zodat <waarde>.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptatiecriteria
+    attributes:
+      label: Acceptatiecriteria
+      description: Eén per regel, toetsbaar. "Gegeven ..., wanneer ..., dan ..."
+      value: |
+        - [ ] Gegeven ..., wanneer ..., dan ...
+    validations:
+      required: true
+  - type: textarea
+    id: technisch
+    attributes:
+      label: Technische aanwijzingen
+      description: Betrokken onderdelen, verwijzing naar de specificatie.
+  - type: textarea
+    id: buiten-scope
+    attributes:
+      label: Buiten scope
+  - type: textarea
+    id: afhankelijkheden
+    attributes:
+      label: Afhankelijkheden
+      placeholder: "Na #12 (of: geen)"

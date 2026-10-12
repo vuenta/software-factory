@@ -1,0 +1,14 @@
+{
+  "name": "vuenta-factory",
+  "description": "Software factory: werkwijze, skills en review-agent voor projecten van Vuenta",
+  "owner": {
+    "name": "Vuenta"
+  },
+  "plugins": [
+    {
+      "name": "factory",
+      "source": "./plugins/factory",
+      "description": "Refine, implement en review volgens de factory-werkwijze"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+          POSTGRES_DB: app_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U app"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://app:app@localhost:5432/app_test
+      NODE_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+      # Stappen slaan over zolang het project nog geen package.json heeft.
+      - uses: pnpm/action-setup@v4
+        if: ${{ hashFiles('package.json') != '' }}
+      - uses: actions/setup-node@v4
+        if: ${{ hashFiles('package.json') != '' }}
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+        if: ${{ hashFiles('package.json') != '' }}
+      - run: pnpm run --if-present lint
+        if: ${{ hashFiles('package.json') != '' }}
+      - run: pnpm run --if-present typecheck
+        if: ${{ hashFiles('package.json') != '' }}
+      - run: pnpm run --if-present test
+        if: ${{ hashFiles('package.json') != '' }}
+      - run: pnpm run --if-present build
+        if: ${{ hashFiles('package.json') != '' }}
