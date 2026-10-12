@@ -8,6 +8,7 @@ TARGET="${1:?Gebruik: scripts/install-into.sh <pad/naar/project>}"
 SRC="$(cd "$(dirname "$0")/../template" && pwd)"
 
 [ -d "$TARGET" ] || { echo "Map bestaat niet: $TARGET" >&2; exit 1; }
+TARGET="$(cd "$TARGET" && pwd)"
 
 cd "$SRC"
 find . -type f | while read -r f; do
