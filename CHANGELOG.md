@@ -1,5 +1,8 @@
 # Changelog
 
+## Ongepubliceerd
+- Template `.claude/settings.json`: deny-regels noemen de echte `.env`-bestanden expliciet, zodat `.env.example` niet meer geblokkeerd wordt.
+
 ## 0.1.1 — 2026-10-13
 - `review`: werkt nu ook in GitHub Actions. Kan er geen subagent gestart worden, dan voert de sessie de review zelf uit volgens `reviewer.md`; het plaatsen van de comment is verplicht en gebeurt via een heredoc.
 - Template `claude-review.yml`: Dependabot-PR's overgeslagen, `Agent`/`Task` toegestaan, `show_full_output` aan voor onderzoek.
