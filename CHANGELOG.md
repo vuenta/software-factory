@@ -1,6 +1,7 @@
 # Changelog
 
-## Ongepubliceerd
+## 0.1.2 — 2026-10-13
+- `review`: één review-comment per PR die bij elke push wordt bijgewerkt (`--edit-last`), met de beoordeelde commit erin.
 - Template: brede deny op `.env*` behouden (ook `.env.example`); `CLAUDE.md` legt vast dat de PO `.env.example` bijwerkt en agents nieuwe variabelen in de PR noemen.
 
 ## 0.1.1 — 2026-10-13
