@@ -23,6 +23,7 @@
 - Commits volgens Conventional Commits met issuenummer: `feat(api): ... (#12)`.
 - Branches: `feat/<nr>-<omschrijving>`, `fix/...`, `chore/...`.
 - Geen geheimen in de repo; configuratie via omgevingsvariabelen.
+- Agents kunnen geen `.env*`-bestanden lezen of schrijven, ook `.env.example` niet (bewuste blokkade). Nieuwe of gewijzigde omgevingsvariabelen noem je in de PR; de PO werkt `.env.example` bij.
 - <Projectspecifieke regels, bijv. "Elke query op tenantdata via de tenant-context", "Alleen design tokens, geen vaste kleuren of pixels".>
 
 ## Werkwijze
