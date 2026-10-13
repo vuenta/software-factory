@@ -1,7 +1,7 @@
 {
   "name": "factory",
   "displayName": "Software Factory",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Van idee naar issue, van issue naar PR, en een onafhankelijke review van elke PR",
   "author": {
     "name": "Vuenta"

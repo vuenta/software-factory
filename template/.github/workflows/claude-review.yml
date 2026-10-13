@@ -2,6 +2,7 @@ name: Claude review
 
 # Onafhankelijke review van elke PR door de reviewer-agent van de factory.
 # Het oordeel komt als comment op de PR. Lint, typecheck en tests draaien in CI.
+# Dependabot-PR's worden overgeslagen (alleen versie-updates; CI controleert die).
 
 on:
   pull_request:
@@ -13,7 +14,7 @@ concurrency:
 
 jobs:
   review:
-    if: ${{ !github.event.pull_request.draft }}
+    if: ${{ !github.event.pull_request.draft && github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -32,7 +33,10 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           plugin_marketplaces: "https://github.com/vuenta/software-factory.git"
           plugins: "factory@vuenta-factory"
+          # Volledige uitvoer in de log, zodat een mislukte review te onderzoeken is.
+          # Zet op false als de repo openbaar wordt.
+          show_full_output: true
           prompt: "/factory:review ${{ github.event.pull_request.number }} --comment --geen-controles"
           claude_args: >-
             --max-turns 30
-            --allowedTools "Read,Grep,Glob,Bash(git diff:*),Bash(git log:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh issue view:*),Bash(gh pr comment:*)"
+            --allowedTools "Read,Grep,Glob,Agent,Task,Bash(git diff:*),Bash(git log:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh issue view:*),Bash(gh pr comment:*)"
