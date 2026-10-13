@@ -45,7 +45,7 @@ Kolommen (veld *Status*): **Backlog → Ready → In progress → Review → Don
 |---|---|---|
 | Backlog | Idee of uitgewerkt issue, nog niet goedgekeurd | Automatisch bij nieuw issue |
 | Ready | Goedgekeurd; een agent mag beginnen | **Alleen jij** verplaatst hierheen |
-| In progress | Agent werkt eraan | Bij start van implement |
+| In progress | Agent werkt eraan | Jij, bij het starten van `/factory:implement` (nog niet geautomatiseerd) |
 | Review | PR staat open | Automatisch bij PR met `Closes #nr` (zie inrichting) |
 | Done | Gemerged | Automatisch bij sluiten van het issue |
 | Live | Gedeployed | Jij, of de deploy-workflow |
