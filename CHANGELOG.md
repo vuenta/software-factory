@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 — 2026-10-17
+- `reviewer`: duidelijke zwaarte per bevinding. Alleen een **blokkerende** bevinding leidt tot WIJZIGINGEN NODIG; belangrijke en kleine bevindingen staan erbij, maar de PR wordt GOEDGEKEURD. Wat de reviewer niet kan controleren is geen bevinding.
+- `reviewer` en `review`: CI-status via `gh pr checks` onder *Controles*; nog lopende of onleesbare CI is geen bevinding.
+- Template `claude-review.yml`: rechten `actions`, `checks` en `statuses` (lezen) en `gh pr checks` toegestaan, zodat de reviewer de CI-uitslag kan zien.
+
 ## 0.1.2 — 2026-10-13
 - `review`: één review-comment per PR die bij elke push wordt bijgewerkt (`--edit-last`), met de beoordeelde commit erin.
 - Template: brede deny op `.env*` behouden (ook `.env.example`); `CLAUDE.md` legt vast dat de PO `.env.example` bijwerkt en agents nieuwe variabelen in de PR noemen.

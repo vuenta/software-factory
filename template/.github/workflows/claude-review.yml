@@ -21,6 +21,9 @@ jobs:
       contents: read
       pull-requests: write
       issues: read
+      actions: read
+      checks: read
+      statuses: read
       id-token: write
     steps:
       - uses: actions/checkout@v4
@@ -39,4 +42,4 @@ jobs:
           prompt: "/factory:review ${{ github.event.pull_request.number }} --comment --geen-controles"
           claude_args: >-
             --max-turns 30
-            --allowedTools "Read,Grep,Glob,Agent,Task,Bash(git diff:*),Bash(git log:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh issue view:*),Bash(gh pr comment:*)"
+            --allowedTools "Read,Grep,Glob,Agent,Task,Bash(git diff:*),Bash(git log:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr checks:*),Bash(gh issue view:*),Bash(gh pr comment:*)"
