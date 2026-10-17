@@ -51,7 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
       - uses: pnpm/action-setup@v4
         if: ${{ hashFiles('package.json') != '' }}
       - uses: actions/setup-node@v4
@@ -66,4 +66,7 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           plugin_marketplaces: "https://github.com/vuenta/software-factory.git"
           plugins: "factory@vuenta-factory"
-          claude_args: "--max-turns 80"
+          # Bash staat standaard uit; zonder deze regels kan Claude de tests niet draaien.
+          claude_args: >-
+            --max-turns 80
+            --allowedTools "Bash(pnpm:*),Bash(git:*),Bash(gh issue view:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh run list:*),Bash(gh run view:*)"

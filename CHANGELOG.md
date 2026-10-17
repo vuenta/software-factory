@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4 — 2026-10-17
+- Template `auto-pr.yml` (nieuw): na een push van `@claude` naar `claude/issue-<nr>-…` opent een workflow de PR met `Closes #<nr>` en de labels van het issue, en start CI en de review. Geen "Create PR"-link meer klikken.
+- Template `ci.yml` en `claude-review.yml`: ook te starten via `workflow_dispatch` (door `auto-pr.yml`); de review accepteert `github-actions[bot]` als starter.
+- Template `claude.yml`: volledige git-historie en Bash voor `pnpm`, `git` en lezende `gh`-commando's, zodat `@claude` de tests zelf kan draaien.
+- `reviewer` en `review`: CI-status via `gh run list` (REST) in plaats van `gh pr checks`, dat in Actions met het standaardtoken faalt.
+
 ## 0.1.3 — 2026-10-17
 - `reviewer`: duidelijke zwaarte per bevinding. Alleen een **blokkerende** bevinding leidt tot WIJZIGINGEN NODIG; belangrijke en kleine bevindingen staan erbij, maar de PR wordt GOEDGEKEURD. Wat de reviewer niet kan controleren is geen bevinding.
 - `reviewer` en `review`: CI-status via `gh pr checks` onder *Controles*; nog lopende of onleesbare CI is geen bevinding.

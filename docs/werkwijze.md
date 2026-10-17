@@ -24,7 +24,7 @@ Idee ──/factory:refine──▶ Issue (Backlog)
                           Ready
                               │  /factory:implement <nr>   (lokaal of "@claude /factory:implement <nr>" in het issue)
                               ▼
-                          In progress ──▶ PR "Closes #nr"
+                          In progress ──▶ PR "Closes #nr"   (via @claude opent auto-pr.yml de PR zelf)
                                               │
                               ┌───────────────┼────────────────┐
                               ▼               ▼                ▼

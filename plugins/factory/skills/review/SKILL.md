@@ -3,7 +3,7 @@ name: review
 description: Laat een pull request of branch onafhankelijk beoordelen door de reviewer-agent, getoetst aan het issue en de Definition of Done. Gebruik bij "review PR", "beoordeel deze branch".
 argument-hint: "[PR-nummer] [--comment] [--geen-controles]"
 disable-model-invocation: true
-allowed-tools: Read Grep Glob Agent Bash(git *) Bash(gh pr view *) Bash(gh pr diff *) Bash(gh pr checks *) Bash(gh issue view *) Bash(gh pr comment *)
+allowed-tools: Read Grep Glob Agent Bash(git *) Bash(gh pr view *) Bash(gh pr diff *) Bash(gh pr checks *) Bash(gh run list *) Bash(gh issue view *) Bash(gh pr comment *)
 ---
 
 # Review
