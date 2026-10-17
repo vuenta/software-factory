@@ -8,6 +8,12 @@ name: PR na @claude
 on:
   push:
     branches: ["claude/issue-*"]
+  # Gestart door claude.yml na afloop van @claude: de push van @claude zelf start geen workflow.
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch van @claude (claude/issue-<nr>-...)
+        required: true
 
 permissions:
   contents: read
@@ -16,7 +22,7 @@ permissions:
   actions: write
 
 concurrency:
-  group: auto-pr-${{ github.ref }}
+  group: auto-pr-${{ inputs.branch || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
@@ -26,11 +32,12 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
-      BRANCH: ${{ github.ref_name }}
+      BRANCH: ${{ inputs.branch || github.ref_name }}
     steps:
       - name: PR openen als die nog niet bestaat
         run: |
           set -euo pipefail
+          case "$BRANCH" in claude/issue-*) ;; *) echo "Geen @claude-branch: $BRANCH"; exit 0 ;; esac
           OWNER="${GH_REPO%%/*}"
           OPEN=$(gh api "repos/$GH_REPO/pulls?state=open&head=$OWNER:$BRANCH" --jq "length")
           if [ "$OPEN" != "0" ]; then

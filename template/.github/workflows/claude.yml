@@ -29,7 +29,7 @@ jobs:
       pull-requests: write
       issues: write
       id-token: write
-      actions: read
+      actions: write
 
     services:
       postgres:
@@ -70,3 +70,18 @@ jobs:
           claude_args: >-
             --max-turns 80
             --allowedTools "Bash(pnpm:*),Bash(git:*),Bash(gh issue view:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh run list:*),Bash(gh run view:*)"
+      # De push van @claude start zelf geen workflows. Heeft @claude voor dit issue een branch
+      # gepusht, dan opent auto-pr.yml de PR en start CI en review.
+      - name: PR openen voor de branch van @claude
+        if: ${{ always() && github.event.issue && !github.event.issue.pull_request }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NR: ${{ github.event.issue.number }}
+        run: |
+          BRANCH=$(gh api "repos/$GH_REPO/git/matching-refs/heads/claude/issue-$NR-" --jq '.[-1].ref // ""' | sed 's#^refs/heads/##')
+          if [ -z "$BRANCH" ]; then
+            echo "Geen branch van @claude voor #$NR."
+            exit 0
+          fi
+          gh workflow run auto-pr.yml --ref main -f branch="$BRANCH"
