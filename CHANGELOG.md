@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.6 — 2026-10-17
+- Template `claude.yml`: start na afloop `auto-pr.yml` voor de branch van `@claude`. Een push van `@claude` zelf start geen workflow, waardoor de PR voor #35 niet automatisch werd geopend.
+- Template `auto-pr.yml`: ook via `workflow_dispatch` met een branch te starten; negeert andere branches.
+
 ## 0.1.5 — 2026-10-17
 - Template `claude-review.yml`: `github_token: ${{ github.token }}`. Het token van de Claude-app mocht de CI-runs niet lezen (HTTP 403 op `gh run list`); het workflow-token heeft `actions: read` wel. De review-comment komt nu van `github-actions[bot]`.
 
