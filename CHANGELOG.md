@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.5 — 2026-10-17
+- Template `claude-review.yml`: `github_token: ${{ github.token }}`. Het token van de Claude-app mocht de CI-runs niet lezen (HTTP 403 op `gh run list`); het workflow-token heeft `actions: read` wel. De review-comment komt nu van `github-actions[bot]`.
+
 ## 0.1.4 — 2026-10-17
 - Template `auto-pr.yml` (nieuw): na een push van `@claude` naar `claude/issue-<nr>-…` opent een workflow de PR met `Closes #<nr>` en de labels van het issue, en start CI en de review. Geen "Create PR"-link meer klikken.
 - Template `ci.yml` en `claude-review.yml`: ook te starten via `workflow_dispatch` (door `auto-pr.yml`); de review accepteert `github-actions[bot]` als starter.

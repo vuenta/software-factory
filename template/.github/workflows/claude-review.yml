@@ -40,6 +40,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Het workflow-token (met de leesrechten hierboven) in plaats van het token van de Claude-app,
+          # zodat de reviewer de CI-uitslag kan lezen. De review-comment komt van github-actions[bot].
+          github_token: ${{ github.token }}
           # auto-pr.yml start de review via workflow_dispatch als github-actions[bot].
           allowed_bots: "github-actions[bot]"
           plugin_marketplaces: "https://github.com/vuenta/software-factory.git"
