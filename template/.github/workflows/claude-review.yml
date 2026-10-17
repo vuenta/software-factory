@@ -7,14 +7,20 @@ name: Claude review
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
+  # Gestart door auto-pr.yml voor een PR die met GITHUB_TOKEN is geopend.
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: PR-nummer
+        required: true
 
 concurrency:
-  group: claude-review-${{ github.event.pull_request.number }}
+  group: claude-review-${{ github.event.pull_request.number || inputs.pr }}
   cancel-in-progress: true
 
 jobs:
   review:
-    if: ${{ !github.event.pull_request.draft && github.actor != 'dependabot[bot]' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (!github.event.pull_request.draft && github.actor != 'dependabot[bot]') }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -34,12 +40,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # auto-pr.yml start de review via workflow_dispatch als github-actions[bot].
+          allowed_bots: "github-actions[bot]"
           plugin_marketplaces: "https://github.com/vuenta/software-factory.git"
           plugins: "factory@vuenta-factory"
           # Volledige uitvoer in de log, zodat een mislukte review te onderzoeken is.
           # Zet op false als de repo openbaar wordt.
           show_full_output: true
-          prompt: "/factory:review ${{ github.event.pull_request.number }} --comment --geen-controles"
+          prompt: "/factory:review ${{ github.event.pull_request.number || inputs.pr }} --comment --geen-controles"
           claude_args: >-
             --max-turns 30
-            --allowedTools "Read,Grep,Glob,Agent,Task,Bash(git diff:*),Bash(git log:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr checks:*),Bash(gh issue view:*),Bash(gh pr comment:*)"
+            --allowedTools "Read,Grep,Glob,Agent,Task,Bash(git diff:*),Bash(git log:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr checks:*),Bash(gh run list:*),Bash(gh issue view:*),Bash(gh pr comment:*)"

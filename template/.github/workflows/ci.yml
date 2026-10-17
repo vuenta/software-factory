@@ -2,6 +2,8 @@ name: CI
 
 on:
   pull_request:
+  # Gestart door auto-pr.yml en update-baselines.yml (een push met GITHUB_TOKEN start CI niet zelf).
+  workflow_dispatch:
   push:
     branches: [main]
 

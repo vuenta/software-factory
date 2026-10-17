@@ -1,0 +1,49 @@
+name: PR na @claude
+
+# @claude pusht een branch claude/issue-<nr>-... maar opent zelf geen PR (bewuste keuze van
+# claude-code-action). Deze workflow opent de PR, met "Closes #<nr>" en de labels van het issue,
+# en start daarna CI en de review. Een PR die met het standaard GITHUB_TOKEN is geopend, start
+# die workflows namelijk niet vanzelf; een workflow_dispatch wel.
+
+on:
+  push:
+    branches: ["claude/issue-*"]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: read
+  actions: write
+
+concurrency:
+  group: auto-pr-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      BRANCH: ${{ github.ref_name }}
+    steps:
+      - name: PR openen als die nog niet bestaat
+        run: |
+          set -euo pipefail
+          OWNER="${GH_REPO%%/*}"
+          OPEN=$(gh api "repos/$GH_REPO/pulls?state=open&head=$OWNER:$BRANCH" --jq "length")
+          if [ "$OPEN" != "0" ]; then
+            echo "Er staat al een PR open voor $BRANCH; niets te doen."
+            exit 0
+          fi
+          NR=$(sed -E "s#^claude/issue-([0-9]+).*#\\1#" <<<"$BRANCH")
+          TITLE=$(gh api "repos/$GH_REPO/issues/$NR" --jq .title)
+          BODY=$(printf "Closes #%s\n\nAutomatisch geopend na de push van @claude. De toelichting staat in het laatste comment van @claude op #%s.\n" "$NR" "$NR")
+          PR=$(gh api "repos/$GH_REPO/pulls" -f head="$BRANCH" -f base=main -f title="$TITLE (#$NR)" -f body="$BODY" --jq .number)
+          # Labels van het issue overnemen (zoals area:platform).
+          gh api "repos/$GH_REPO/issues/$NR" --jq "{labels: [.labels[].name]}" \
+            | gh api "repos/$GH_REPO/issues/$PR/labels" --method PUT --input - > /dev/null
+          gh workflow run ci.yml --ref "$BRANCH"
+          gh workflow run claude-review.yml --ref "$BRANCH" -f pr="$PR"
+          echo "PR #$PR geopend; CI en review gestart."
