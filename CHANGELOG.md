@@ -1,5 +1,8 @@
 # Changelog
 
+## Documentatie — 2026-10-17
+- `docs/werkwijze.md`: dagelijkse routine voor de PO (beslistabel per PR-situatie), beperkingen van `@claude`, screenshot-baselines en een overzicht van de workflows.
+
 ## 0.1.6 — 2026-10-17
 - Template `claude.yml`: start na afloop `auto-pr.yml` voor de branch van `@claude`. Een push van `@claude` zelf start geen workflow, waardoor de PR voor #35 niet automatisch werd geopend.
 - Template `auto-pr.yml`: ook via `workflow_dispatch` met een branch te starten; negeert andere branches.
